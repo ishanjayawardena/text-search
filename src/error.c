@@ -10,7 +10,7 @@
  */
 int printnexit(STRING s)
 {
-	printf("\r%80c", ' ');
-	fprintf(stderr, "\n\n%s\nEXITING PROGRAM..............\n", s);
-	exit(EXIT_FAILURE); 
+    printf("\r%80c", ' ');
+    fprintf(stderr, "\n\n%s\nEXITING PROGRAM..............\n", s);
+    exit(EXIT_FAILURE);
 }

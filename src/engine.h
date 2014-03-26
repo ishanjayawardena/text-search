@@ -16,7 +16,7 @@
 #include "fsm.h"
 #include "common.h"
 #define MAXCHARS 80	/*	maximum # of first chars to be tested in a file 
-						to determine if it is a text file	*/
+to determine if it is a text file	*/
 #define TRUE    1
 #define FALSE   0
 #define MAXWORDS    10000
@@ -26,7 +26,7 @@
 /* we decided this size to suit the hashing algorithm we use. */
 
 #define PATHSIZE    1024 /*	maximum size of a 
-							possible absolute path of a text file	*/
+possible absolute path of a text file	*/
 #define KILOBYTE    1024
 /*	flags used to identify the type of a file	*/
 #define S_IFMT	__S_IFMT
@@ -35,7 +35,7 @@
 #define TYPED_ALLOC(type) (type *) malloc(sizeof (type))
 #define TYPED_CALLOC(n, type) (type *) calloc(n, sizeof (type))
 #define MAKESTR(size) (char *) malloc(size + 1) /* a macro for making 
-												 a new string of size 'size'	*/
+a new string of size 'size'	*/
 #define SEP '/'	/*	this is the file separator used in Linux	*/
 
 #define MAKENODE(p, w, tmp) {\
@@ -48,8 +48,8 @@
  * Hashing function:
  * Compute the key to index the hash table for the given word.
  * Algorithm used here is Fibbonacci Hasing.
- */    
-#define PRIME 311U            
+ */
+#define PRIME 311U
 #define bitsize() (CHAR_BIT * sizeof (size_t))
 #define FIB() (sqrt(5) - 1) / 2.0
 #define a (unsigned int) ((double) FIB() * (double) pow(2, bitsize()))
@@ -61,11 +61,11 @@
 
 typedef enum {A = 1, O = 2, L = 4, E = 8, C = 16, D = 32}	OPT_BITS;
 typedef char S_BITVEC;
-typedef unsigned int L_BITVEC; /*	long bit vector type- length: 32 bits. 
+typedef unsigned int L_BITVEC; /*	long bit vector type- length: 32 bits.
 									So we can search for a maximum of 32 key words	*/
 typedef struct input_data {
     char rootdir[PATHSIZE/4];
-    S_BITVEC opt_bits;	/* the correct combination of options 
+    S_BITVEC opt_bits;	/* the correct combination of options
     					   that the user invoked the prog. with	*/
 } INPUT_DATA;
 

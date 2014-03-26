@@ -24,7 +24,7 @@
 
 typedef unsigned char bitvec_t;
 typedef struct bitvector_t {
-	bitvec_t *bitvec;
+    bitvec_t *bitvec;
     size_t size;
 } BITVECTOR;
 

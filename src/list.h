@@ -11,8 +11,8 @@
 #include "common.h"
 
 typedef struct list {
-	char *path;
-	struct list *next;
+    char *path;
+    struct list *next;
 } LIST_ENTRY;
 typedef LIST_ENTRY *LIST;
 

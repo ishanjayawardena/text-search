@@ -14,20 +14,20 @@
  */
 void initialize(char **a)
 {
-	int i;
-	for (i = 0; i < KW_SIZE; ++i) {
-		a[i] = NULL;
-		
-	}
+    int i;
+    for (i = 0; i < KW_SIZE; ++i) {
+        a[i] = NULL;
+
+    }
 }
 
 /*
- * Frees the keywords in the 
+ * Frees the keywords in the
  * keywords array.
  */
 void free_keywords(char **a)
 {
-    int i;    
+    int i;
     for (i = 0; a[i] != NULL && i < KW_SIZE; ++i) {
         free(a[i]);
         a[i] = NULL;
@@ -56,44 +56,45 @@ int ccount;
 
 static Character get_next(FILE *fp)
 {
-	Character nc;		/* next character */
-	/*
-	  extern char c;
-	  extern int ccount, exit_main;
-	*/
-	c = getc(fp);				
-	if (isdigit(c) || isalpha(c) || c == '_') {
-		nc = ID_CHAR;
-		++idccount;/* the char count of this possible identifier */
-		++ccount;
-		if (idccount <= MAXWORD - 1) {
-			*word++ = (isalpha(c) != 0 ? tolower(c) : c);
-		} else *word = '\0';
-	} else if (isspace(c) && c != '\n') {
-		nc = BLANK;
-		*word = '\0';
-	} else if (c == '|' || c == '&') {
-	    ++ccount;
-		nc = SEARCH_TYPE_CHAR;	
-		if (stsofar == 'n') stsofar = c;
-		else if (stsofar != c) {
-			fprintf(stderr, "\ndifferent search types are not allowed...");
-			return ERROR;
-		}
-	} else if (c == '\n' || c == EOF) {
-		nc = END; 
-		*word = '\0';/* end of input line */
-	} else if (c == '.') {/* if '.' is the first char of the query, then
-	                         the user wants to exit from the main program! */
-	    ++ccount;
-	    if (ccount == 1)
-	        exit_main = 1;
-	    else fprintf(stderr, "\ncharacter '%c' is unrecognized...", c);
-	} else {
-		nc = OTHER;
-		fprintf(stderr, "\ncharacter '%c' is unrecognized...", c);
-	}
-	return nc;
+    Character nc;		/* next character */
+    /*
+      extern char c;
+      extern int ccount, exit_main;
+    */
+    c = getc(fp);
+    if (isdigit(c) || isalpha(c) || c == '_') {
+        nc = ID_CHAR;
+        ++idccount;/* the char count of this possible identifier */
+        ++ccount;
+        if (idccount <= MAXWORD - 1) {
+            *word++ = (isalpha(c) != 0 ? tolower(c) : c);
+        } else *word = '\0';
+    } else if (isspace(c) && c != '\n') {
+        nc = BLANK;
+        *word = '\0';
+    } else if (c == '|' || c == '&') {
+        ++ccount;
+        nc = SEARCH_TYPE_CHAR;
+        if (stsofar == 'n') stsofar = c;
+        else if (stsofar != c) {
+            fprintf(stderr, "\ndifferent search types are not allowed...");
+            return ERROR;
+        }
+    } else if (c == '\n' || c == EOF) {
+        nc = END;
+        *word = '\0';/* end of input line */
+    } else if (c == '.') {
+        /* if '.' is the first char of the query, then
+                                 the user wants to exit from the main program! */
+        ++ccount;
+        if (ccount == 1)
+            exit_main = 1;
+        else fprintf(stderr, "\ncharacter '%c' is unrecognized...", c);
+    } else {
+        nc = OTHER;
+        fprintf(stderr, "\ncharacter '%c' is unrecognized...", c);
+    }
+    return nc;
 }
 
 /*
@@ -107,101 +108,101 @@ static Character get_next(FILE *fp)
  */
 static State transition(State current, Character cc)
 {
-	State ns;		/* next state to be returned			*/
-	/*
-	  extern int erroroccured;
-	  extern char c;
-	*/
-	if (current == START)
-		switch (cc) {
-		case ID_CHAR:
-			ns = BUILD_ID;
-			break;
-		case SEARCH_TYPE_CHAR:
-			ns = BUILD_ST;
-			break;
-		case BLANK:
-			ns = BLANKS;
-			break;
-		case END:
-			ns = STOP;
-			break;
-		default:
-			erroroccured = 1;
-			ns = IGNORE_ERROR;
-			break;
-		}
-	else if (current == BUILD_ID)
-		switch (cc) {
-		case ID_CHAR:
-			ns = (idccount <= (MAXWORD - 1) ? BUILD_ID : IGNORE);
-			break;
-		case BLANK:
-			ns = IDENTIFIER;
-			break;
-		case END:
-			ns = END_QUERY;
-			break;
-		default:
-			erroroccured = 1;
-			ns = IGNORE_ERROR;
-			break;
-		}
-	else if (current == BUILD_ST)
-		switch (cc) {
-		case BLANK:
-			ns = ST;
-			break;
-		default:
-			erroroccured = 1;
-			ns = (c != '\n' ? IGNORE_ERROR : STOP);
-			break;
-		}
-	else if (current == BLANKS) {
-		switch (cc) {
-		case BLANK:
-			ns = BLANKS;
-			break;
-		case ID_CHAR:
-			ns = BUILD_ID;
-			break;
-		case SEARCH_TYPE_CHAR:
-			ns = BUILD_ST;
-			break;
-		case END:
-			ns = STOP;
-			break;
-		default:
-			erroroccured = 1;
-			ns = IGNORE_ERROR;
-			break;
-		}
-	} else if (current == IGNORE) {
-		switch (cc) {
-		case ID_CHAR:
-			ns = IGNORE;
-			break;
-		case BLANK:
-			ns = IDENTIFIER;
-			break;
-		case END:
-			ns = END_QUERY;
-			break;
-		default:
-			ns = IGNORE_ERROR;
-			break;
-		}
-	} else if (current == IGNORE_ERROR) {
-	    switch (cc) {
-	    case END:
-	        ns = STOP;
-	        break;
-	    default:
-	        ns = IGNORE_ERROR;
-	        break;
-	    }
-	}
-	return ns;
+    State ns;		/* next state to be returned			*/
+    /*
+      extern int erroroccured;
+      extern char c;
+    */
+    if (current == START)
+        switch (cc) {
+        case ID_CHAR:
+            ns = BUILD_ID;
+            break;
+        case SEARCH_TYPE_CHAR:
+            ns = BUILD_ST;
+            break;
+        case BLANK:
+            ns = BLANKS;
+            break;
+        case END:
+            ns = STOP;
+            break;
+        default:
+            erroroccured = 1;
+            ns = IGNORE_ERROR;
+            break;
+        }
+    else if (current == BUILD_ID)
+        switch (cc) {
+        case ID_CHAR:
+            ns = (idccount <= (MAXWORD - 1) ? BUILD_ID : IGNORE);
+            break;
+        case BLANK:
+            ns = IDENTIFIER;
+            break;
+        case END:
+            ns = END_QUERY;
+            break;
+        default:
+            erroroccured = 1;
+            ns = IGNORE_ERROR;
+            break;
+        }
+    else if (current == BUILD_ST)
+        switch (cc) {
+        case BLANK:
+            ns = ST;
+            break;
+        default:
+            erroroccured = 1;
+            ns = (c != '\n' ? IGNORE_ERROR : STOP);
+            break;
+        }
+    else if (current == BLANKS) {
+        switch (cc) {
+        case BLANK:
+            ns = BLANKS;
+            break;
+        case ID_CHAR:
+            ns = BUILD_ID;
+            break;
+        case SEARCH_TYPE_CHAR:
+            ns = BUILD_ST;
+            break;
+        case END:
+            ns = STOP;
+            break;
+        default:
+            erroroccured = 1;
+            ns = IGNORE_ERROR;
+            break;
+        }
+    } else if (current == IGNORE) {
+        switch (cc) {
+        case ID_CHAR:
+            ns = IGNORE;
+            break;
+        case BLANK:
+            ns = IDENTIFIER;
+            break;
+        case END:
+            ns = END_QUERY;
+            break;
+        default:
+            ns = IGNORE_ERROR;
+            break;
+        }
+    } else if (current == IGNORE_ERROR) {
+        switch (cc) {
+        case END:
+            ns = STOP;
+            break;
+        default:
+            ns = IGNORE_ERROR;
+            break;
+        }
+    }
+    return ns;
 }
 
 /*
@@ -209,89 +210,89 @@ static State transition(State current, Character cc)
  */
 int get_query(char **keywords, unsigned short *st, int *wcount)
 {
-	State cs;		/* current state */
-	char realword[MAXWORD];
-	/* 
-	   extern int erroroccured, exit_main;
-	   extern char *word, stsofar;*/
-	/* initialize extern variables for this read */
-	word = realword;
-	idccount = tokencount = erroroccured  = 0;
-	stsofar = 'n'; 
-	int i =0;
-	int sepcount = 0; /* this is the search type token count i.e '|' or '&' count */
-	/* 'tokencount' is the total count of tokens together with
-	   search type tokens */
-	cs = START;
-	do {
-		if (cs == IDENTIFIER) {
-		    /*printf("%s - Identifier\n", realword);*/  /* we cannot use word. it;s just a pointer and 
-			  at this moment it has been incremented */
-		    cs = START;
-		    ++tokencount;
-		    word = realword; 
-		    idccount = 0; 
-		    keywords[i++] = STRCPY(realword);
-		    /* STRCPY is similar to strcpy((char *)malloc(strlen(realword) + 1), realword);*/
-			if (ISEVEN(tokencount) && stsofar != 'n') {
-				fprintf(stderr, "\ntoken '%s' at wrong position", realword);
-				SET();
-			}
-		} else if (cs == ST) {
-		    cs = START;
-			++tokencount; 
-			++sepcount;
-			if (!ISEVEN(tokencount)) {
-				fprintf(stderr, "\nSEARCH TYPE token at wrong position...");
-				SET();
-			}
-		} else if (cs == END_QUERY) {
-			/*printf("%s - Identifier\n", realword);word = realword;idccount = 0; */
-			++tokencount;
-			keywords[i++] = STRCPY(realword);
-			if (ISEVEN(tokencount) && stsofar != 'n' ) {
-				fprintf(stderr, "\ntoken '%s' at wrong position", realword);
-				SET();
-			}
-			break;
-		}
-		cs = transition(cs, get_next(stdin));
-	} while (cs != STOP && i < MAX_KEYWORDS && !exit_main);
-	
-	if (c != '\n')	while ((c = getc(stdin)) != '\n');
-	
-	if (exit_main)	return EXIT;
-	/* now check for duplicate keywords */
-	*wcount = tokencount - sepcount;
-	int a, b;
-    for (a = 0; a < *wcount - 1; ++a) 
-    	for (b = a + 1; b < *wcount; ++b)
-			if(strcmp(keywords[a], keywords[b]) == 0) {
-				fprintf(stderr, "\nDuplicate keywords...\n"); 
-				return ERROR;
-			}   	
-	if (((tokencount - (sepcount << 1U) != 1) && stsofar != 'n') || 
-		erroroccured || tokencount == 0) {
-		fprintf(stderr, "\nInvalid query format...\n");
-		return ERROR;
-	} 
-	
-	switch (stsofar) {/* get the search type: 0-notype, 1-and, 2-or */
-	case 'n':
-		*st = 0;
-		break;
-	case '&':
-		*st = 1;
-		break;
-	case '|':
-		*st = 2;
-		break;
-	}
-	return OK;	
+    State cs;		/* current state */
+    char realword[MAXWORD];
+    /*
+       extern int erroroccured, exit_main;
+       extern char *word, stsofar;*/
+    /* initialize extern variables for this read */
+    word = realword;
+    idccount = tokencount = erroroccured  = 0;
+    stsofar = 'n';
+    int i =0;
+    int sepcount = 0; /* this is the search type token count i.e '|' or '&' count */
+    /* 'tokencount' is the total count of tokens together with
+       search type tokens */
+    cs = START;
+    do {
+        if (cs == IDENTIFIER) {
+            /*printf("%s - Identifier\n", realword);*/  /* we cannot use word. it;s just a pointer and
+              at this moment it has been incremented */
+            cs = START;
+            ++tokencount;
+            word = realword;
+            idccount = 0;
+            keywords[i++] = STRCPY(realword);
+            /* STRCPY is similar to strcpy((char *)malloc(strlen(realword) + 1), realword);*/
+            if (ISEVEN(tokencount) && stsofar != 'n') {
+                fprintf(stderr, "\ntoken '%s' at wrong position", realword);
+                SET();
+            }
+        } else if (cs == ST) {
+            cs = START;
+            ++tokencount;
+            ++sepcount;
+            if (!ISEVEN(tokencount)) {
+                fprintf(stderr, "\nSEARCH TYPE token at wrong position...");
+                SET();
+            }
+        } else if (cs == END_QUERY) {
+            /*printf("%s - Identifier\n", realword);word = realword;idccount = 0; */
+            ++tokencount;
+            keywords[i++] = STRCPY(realword);
+            if (ISEVEN(tokencount) && stsofar != 'n' ) {
+                fprintf(stderr, "\ntoken '%s' at wrong position", realword);
+                SET();
+            }
+            break;
+        }
+        cs = transition(cs, get_next(stdin));
+    } while (cs != STOP && i < MAX_KEYWORDS && !exit_main);
+
+    if (c != '\n')	while ((c = getc(stdin)) != '\n');
+
+    if (exit_main)	return EXIT;
+    /* now check for duplicate keywords */
+    *wcount = tokencount - sepcount;
+    int a, b;
+    for (a = 0; a < *wcount - 1; ++a)
+        for (b = a + 1; b < *wcount; ++b)
+            if(strcmp(keywords[a], keywords[b]) == 0) {
+                fprintf(stderr, "\nDuplicate keywords...\n");
+                return ERROR;
+            }
+    if (((tokencount - (sepcount << 1U) != 1) && stsofar != 'n') ||
+            erroroccured || tokencount == 0) {
+        fprintf(stderr, "\nInvalid query format...\n");
+        return ERROR;
+    }
+
+    switch (stsofar) {/* get the search type: 0-notype, 1-and, 2-or */
+    case 'n':
+        *st = 0;
+        break;
+    case '&':
+        *st = 1;
+        break;
+    case '|':
+        *st = 2;
+        break;
+    }
+    return OK;
 }
 
 #ifdef TEST
-int 
+int
 main(void)
 {
     char *keywords[KW_SIZE];
@@ -308,12 +309,12 @@ main(void)
         printf("query >> ");
         type = get_query(keywords, &search_type, &wcount);
         if (type == OK) {
-            
+
             for (i = 0; keywords[i] != NULL; ++i) {
-				fprintf(stdout, "%s : \n", keywords[i]);
-				/* now search */
-        	}
-        	printf("search type: %d\nnwords: %d\n", search_type, wcount);
+                fprintf(stdout, "%s : \n", keywords[i]);
+                /* now search */
+            }
+            printf("search type: %d\nnwords: %d\n", search_type, wcount);
         } else if (type == ERROR) {
             /* printf("ERROR ERROR ERROR\n"); */
             free_keywords(keywords);

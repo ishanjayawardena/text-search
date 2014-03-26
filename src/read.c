@@ -13,11 +13,11 @@
  */
 void read_input(int argc, STRING *argv, struct input_data *id)
 {
-	if (id == NULL)
-		printnexit("could not allocate enough memory! for INPUT_DATA item...");
+    if (id == NULL)
+        printnexit("could not allocate enough memory! for INPUT_DATA item...");
     S_BITVEC opt_bits = 0;	/*	bit vector that stores enabled options for this search		*/
     int opt;
-    char *rootdir = ".";		/* root directory for this search							*/ 
+    char *rootdir = ".";		/* root directory for this search							*/
     /*  c - match case
      *  d - path of the root directory where search must be started							*/
     extern char *optarg;
@@ -41,9 +41,9 @@ void read_input(int argc, STRING *argv, struct input_data *id)
             printf("unknown option: %c\n", optopt);
             printnexit("");
             break;
-          
+
         }/*free after assignment															*/
-    if (optind != argc) 
+    if (optind != argc)
         printnexit("too many arguments to the program");
     strcpy(id->rootdir, rootdir);
     id->opt_bits = opt_bits;
@@ -60,7 +60,7 @@ int main(int argc, char *argv[])
 {
     struct input_data *id = NULL;
     id = TYPED_ALLOC(struct input_data);
-   	read_input(argc, argv, id);
+    read_input(argc, argv, id);
     print_input_data(id);
 }
 #endif

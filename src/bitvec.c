@@ -13,10 +13,10 @@
  */
 void set_bits(BITVECTOR *bitvec, size_t type)
 {
-   size_t i;
-   bitvec_t t = (type == ON ? 0xffU : 0x00U);
-   for (i = 0; i < N_BYTES(bitvec->size); ++i)
-        bitvec->bitvec[i] = t; 
+    size_t i;
+    bitvec_t t = (type == ON ? 0xffU : 0x00U);
+    for (i = 0; i < N_BYTES(bitvec->size); ++i)
+        bitvec->bitvec[i] = t;
 }
 
 /*
@@ -24,9 +24,9 @@ void set_bits(BITVECTOR *bitvec, size_t type)
  */
 void flip_bits(BITVECTOR *b)
 {
-   size_t i;
-   for (i = 0; i < N_BYTES(b->size); ++i)
-        b->bitvec[i] = ~(b->bitvec[i]); 
+    size_t i;
+    for (i = 0; i < N_BYTES(b->size); ++i)
+        b->bitvec[i] = ~(b->bitvec[i]);
 }
 
 /*
@@ -34,26 +34,26 @@ void flip_bits(BITVECTOR *b)
  */
 void print_bits(BITVECTOR *b)
 {
-	size_t i;
-	size_t n = BITS_PER_CHAR;	/* in limits.h 
+    size_t i;
+    size_t n = BITS_PER_CHAR;	/* in limits.h
 		n is the number of bits in a machine word */
-	bitvec_t mask = 0x01U << (n - 1);			/* mask = 10000000	
+    bitvec_t mask = 0x01U << (n - 1);			/* mask = 10000000
 		or shift the low-order bit to the high-order end */
-	size_t nb;	
-	size_t totalbits = 0;
-	bitvec_t temp;
-	for (nb = 0; nb < N_BYTES(b->size); ++nb) {
-	    temp = b->bitvec[nb];
-    	for (i = 1; i <= n && totalbits < b->size; ++i) {
-    	    ++totalbits;
-    		putchar(((temp & mask) == 0) ? '0' : '1');
-    		/* An & mask checks if the high-order bit of a is on or not */
-    		temp <<= 1;
-    		/* brings the next bit of a into the high-order position		*/
-    	}
-    	putchar(' ');
+    size_t nb;
+    size_t totalbits = 0;
+    bitvec_t temp;
+    for (nb = 0; nb < N_BYTES(b->size); ++nb) {
+        temp = b->bitvec[nb];
+        for (i = 1; i <= n && totalbits < b->size; ++i) {
+            ++totalbits;
+            putchar(((temp & mask) == 0) ? '0' : '1');
+            /* An & mask checks if the high-order bit of a is on or not */
+            temp <<= 1;
+            /* brings the next bit of a into the high-order position		*/
+        }
+        putchar(' ');
     }
-	putchar('\n');
+    putchar('\n');
 }
 
 /*
@@ -114,18 +114,18 @@ void set_bit(BITVECTOR *b, size_t position, size_t type)
  */
 void and_bits(BITVECTOR *a, BITVECTOR *b)
 {
-	size_t i;
-	/* set_bits(b, ON); */
-	for (i = 0; i < N_BYTES(b->size); ++i)
-        b->bitvec[i] = (a->bitvec[i]) & (b->bitvec[i]); 
+    size_t i;
+    /* set_bits(b, ON); */
+    for (i = 0; i < N_BYTES(b->size); ++i)
+        b->bitvec[i] = (a->bitvec[i]) & (b->bitvec[i]);
 }
 
 void or_bits(BITVECTOR *a, BITVECTOR *b)
 {
-	size_t i;
-	/* set_bits(b, OFF); */
-	for (i = 0; i < N_BYTES(b->size); ++i)
-        b->bitvec[i] = (a->bitvec[i]) | (b->bitvec[i]); 
+    size_t i;
+    /* set_bits(b, OFF); */
+    for (i = 0; i < N_BYTES(b->size); ++i)
+        b->bitvec[i] = (a->bitvec[i]) | (b->bitvec[i]);
 }
 
 /*
@@ -136,7 +136,7 @@ BITVECTOR * make_bitvec(size_t size)
 {
     BITVECTOR *bv = (BITVECTOR *)malloc(sizeof(BITVECTOR));
     if (bv == NULL)
-    	printnexit("could not make a new bitvec...");
+        printnexit("could not make a new bitvec...");
     bv->size = size;
     bv->bitvec = ALLOC(N_BYTES(bv->size));
     set_bits(bv, OFF);
@@ -158,34 +158,44 @@ int main(void)
 {
     size_t n_bits = 23U;
     BITVECTOR *bitvec;
-    
+
     bitvec = make_bitvec(n_bits);
-    
+
     set_bits(bitvec, OFF);
     print_bits(bitvec);
-    
-    set_bit(bitvec, 18U, ON);   set_bit(bitvec, 8U, ON);    set_bit(bitvec, 2U, ON);
-    set_bit(bitvec, 12U, ON);   set_bit(bitvec, 5U, ON);    set_bit(bitvec, 10U, ON);
-    set_bit(bitvec, 15U, ON);   set_bit(bitvec, 17U, ON);   set_bit(bitvec, 1U, ON);
-    set_bit(bitvec, 20U, ON);   set_bit(bitvec, 13U, OFF);  set_bit(bitvec, 7U, OFF);
+
+    set_bit(bitvec, 18U, ON);
+    set_bit(bitvec, 8U, ON);
+    set_bit(bitvec, 2U, ON);
+    set_bit(bitvec, 12U, ON);
+    set_bit(bitvec, 5U, ON);
+    set_bit(bitvec, 10U, ON);
+    set_bit(bitvec, 15U, ON);
+    set_bit(bitvec, 17U, ON);
+    set_bit(bitvec, 1U, ON);
+    set_bit(bitvec, 20U, ON);
+    set_bit(bitvec, 13U, OFF);
+    set_bit(bitvec, 7U, OFF);
     print_bits(bitvec);
-    
+
     printf("10: %d\n", test_bit(bitvec, 10U));
     printf("11: %d\n", test_bit(bitvec, 11U));
     printf("17: %d\n", test_bit(bitvec, 17U));
     printf("18: %d\n", test_bit(bitvec, 18U));
     printf("19: %d\n", test_bit(bitvec, 19U));
     print_bits(bitvec);
-    
+
     printf("\nflip twice:\n");
     flip_bits(bitvec);
     print_bits(bitvec);
     flip_bits(bitvec);
     print_bits(bitvec);
-    
+
     printf("\nflip bit 8, 18, 20:\n");
     print_bits(bitvec);
-    flip_bit(bitvec, 8U);   flip_bit(bitvec, 18U);  flip_bit(bitvec, 20U);
+    flip_bit(bitvec, 8U);
+    flip_bit(bitvec, 18U);
+    flip_bit(bitvec, 20U);
     print_bits(bitvec);
     print_dec(bitvec);
     delete(bitvec);
