@@ -17,7 +17,6 @@ void initialize(char **a)
     int i;
     for (i = 0; i < KW_SIZE; ++i) {
         a[i] = NULL;
-
     }
 }
 

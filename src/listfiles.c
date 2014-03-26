@@ -187,10 +187,10 @@ unsigned int write_paths(STRING pathp, STRING **subpaths)
 int
 main(int argc, char **argv)
 {
-    if (argc == 1) write_paths(".");
-    else
-        while (--argc > 0)
-            write_paths(*++argv);
-    return 0;
+	if (argc == 1) write_paths(".");
+	else
+	    while (--argc > 0)
+		    write_paths(*++argv);
+	return 0;
 }
 #endif
