@@ -188,8 +188,8 @@ main(int argc, char **argv)
 {
 	if (argc == 1) write_paths(".");
 	else
-		while (--argc > 0)
-			write_paths(*++argv);
+	    while (--argc > 0)
+		    write_paths(*++argv);
 	return 0;
 }
 #endif
