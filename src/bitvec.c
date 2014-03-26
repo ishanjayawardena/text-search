@@ -47,7 +47,7 @@ void print_bits(BITVECTOR *b)
     	for (i = 1; i <= n && totalbits < b->size; ++i) {
     	    ++totalbits;
     		putchar(((temp & mask) == 0) ? '0' : '1');
-    		/* a & mask checks if the high-order bit of a is on or not */
+    		/* An & mask checks if the high-order bit of a is on or not */
     		temp <<= 1;
     		/* brings the next bit of a into the high-order position		*/
     	}
