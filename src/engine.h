@@ -25,9 +25,9 @@
 #define HASHSIZE    1024 /* hash size must be 2^k */
 /* we decided this size to suit the hashing algorithm we use. */
 
-#define PATHSIZE	1024 /*	maximum size of a 
+#define PATHSIZE    1024 /*	maximum size of a 
 							possible absolute path of a text file	*/
-#define KILOBYTE	1024
+#define KILOBYTE    1024
 /*	flags used to identify the type of a file	*/
 #define S_IFMT	__S_IFMT
 #define S_IFDIR	__S_IFDIR
@@ -73,31 +73,30 @@ typedef struct input_data {
   The binary search tree consists of the input keywords of the main program and this tree
   is built from the nodes of this type objects(i.e 'key_word' type)	*/
 typedef struct word {
-    BITVECTOR           *bitvec;
-    char				*word; /* the actual string of the identifier or simply the key word */
-    struct word		    *next;	/* pointer to the left subtree */
+    BITVECTOR       *bitvec;
+    char            *word; /* the actual string of the identifier or simply the key word */
+    struct word     *next;	/* pointer to the left subtree */
 } WORD;
 typedef struct word *WORD_LIST;
 
 /* This is the structure of a search engine object!*/
 typedef struct search_engine {
-    WORD_LIST			hashtable[HASHSIZE]; /*	the binary tree of this engine	*/
-    INPUT_DATA			*id;
-    STRING              *subpaths;
-    size_t              nfiles;
-    unsigned short		search_type;
+    WORD_LIST       hashtable[HASHSIZE]; /*	the binary tree of this engine	*/
+    INPUT_DATA      *id;
+    STRING          *subpaths;
+    size_t          nfiles;
+    unsigned short  search_type;
 } ENGINE;
 
 /* functions defined in listfiles.c	*/
 extern int istextfile(STRING);
 extern void dirwalk(STRING, void (*fcn)(STRING));
-extern unsigned int	write_paths(STRING, STRING **);
+extern unsigned int write_paths(STRING, STRING **);
 extern void read_input(int, STRING *, INPUT_DATA *);
 /* these parameters and this function is defined in unistd.h
 	 and I had to include them deliberately here. I think this is due to
 	 the flags I use in compilation(see makefile)	*/
 extern int getopt(int, STRING const *, const STRING);
-
 extern int exit_main;
 extern int ccount;
 
