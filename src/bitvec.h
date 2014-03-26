@@ -15,8 +15,8 @@
 #define ALLOC(n) (unsigned char *) calloc(n, sizeof (unsigned char))
 #define INDEX(n) ((position - 1U) / CHAR_BIT)
 #define BITNUMBER(n) ((n - 1U) % CHAR_BIT)
-#define flip_bit(b, n) \
-        (test_bit(b, n) == 0) ? set_bit(b, n, ON) : set_bit(b, n, OFF)
+#define flip_bit(b, n)												\
+	(test_bit(b, n) == 0) ? set_bit(b, n, ON) : set_bit(b, n, OFF)
 #define TEMP(b, n) (b->bitvec[INDEX(n)])
 #define MASK(n) (0x01U << ((CHAR_BIT - 1U) - BITNUMBER(n)))
 #define ON 1
@@ -24,7 +24,7 @@
 
 typedef unsigned char bitvec_t;
 typedef struct bitvector_t {
-    bitvec_t *bitvec;
+	bitvec_t *bitvec;
     size_t size;
 } BITVECTOR;
 

@@ -6,11 +6,11 @@
 
 static unsigned int comp_key(STRING s)
 {
-  unsigned int hashval;
+	unsigned int hashval;
   
-  for (hashval = 0; *s != '\0'; ++s)
+	for (hashval = 0; *s != '\0'; ++s)
 		hashval = *s + PRIME * hashval;
-  return hash(hashval);
+	return hash(hashval);
 }
 
 
@@ -58,7 +58,7 @@ static WORD_LIST search_table(ENGINE *e, STRING word, BITVECTOR *bv)
     for (np = e->hashtable[comp_key(word)]; np != NULL; np = np->next)
         if (strcmp(word, np->word) == 0) {
         	/* if search_type is 1 bv = np->bitvec & bv 
-        					else   bv = np->bitvec | bv*/
+			   else   bv = np->bitvec | bv*/
         	if (e->search_type == 1) /* and */
         		and_bits(np->bitvec, bv);
         	else if (e->search_type == 2) /* or */
@@ -82,8 +82,8 @@ static WORD_LIST add_to_table(WORD_LIST hashtable[], STRING word, unsigned int *
     if ((np = lookup(hashtable, word, key, pos)) == NULL) {
         np = TYPED_ALLOC(WORD);
         if (np == NULL || 
-           (np->word = strcpy(MAKESTR(strlen(word)), word)) == NULL ||
-           (np->bitvec = make_bitvec(numberoffiles)) == NULL) {
+			(np->word = strcpy(MAKESTR(strlen(word)), word)) == NULL ||
+			(np->bitvec = make_bitvec(numberoffiles)) == NULL) {
            	printnexit("cannot allocate memory for hash map...");
             return NULL;
         }
@@ -125,7 +125,7 @@ static int getword(STRING word, int limit, FILE *fp, unsigned int *keyp)
     }
     *w = '\0';
     HASH(word); /* hash on the spot, calling a function involves a considerable overhead
-    				when the files grow bigger in size. */
+				   when the files grow bigger in size. */
     return w[0];
 }
 
@@ -190,8 +190,8 @@ static int char_count = 0;
 static int const max =   KILOBYTE * 10;
 static char buffer[KILOBYTE * 10]; /* this is the buffer */
 static char thispath[KILOBYTE/2];	/* we first read a small portion of the out put to this
-								little buffer and then write it to the big one.
-								it sort of accumulates a proper single output line. */
+									   little buffer and then write it to the big one.
+									   it sort of accumulates a proper single output line. */
 
 
 static void flush_buffer(void)
@@ -214,7 +214,7 @@ static void print(STRING str)
 }
 
 /* each and every bit of this bitvector maps to a string in subpaths[] array 
-	so we need to extract each such ON bit's subpaths[] string */
+   so we need to extract each such ON bit's subpaths[] string */
 static size_t matches = 0;
 
 static void buffer_output(ENGINE *e, BITVECTOR *bv)
@@ -296,7 +296,8 @@ int main(int argc, char *argv[])
 	for (;;) {/* check the number of key words input */
         exit_main = ccount = wcount = matches = 0;
         initialize(keywords);
-        printf("\r%80cquery >> ", ' ');
+        /*printf("\r%80cquery >> ", ' ');*/
+        printf("\nquery >> ");
         result = get_query(keywords, &(se->search_type), &wcount);
         /* search types 0-NOTYPE, 1-AND, 2-OR */
         if (result == OK) {

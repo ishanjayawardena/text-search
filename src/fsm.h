@@ -23,13 +23,13 @@
 #define EXIT   -1
 #define ERROR  -2
 #define ISEVEN(n) ((n) % 2 == 0 ? 1 : 0)
-#define SET() \
-        {erroroccured = 1; cs = IGNORE_ERROR;}
+#define SET()									\
+	{erroroccured = 1; cs = IGNORE_ERROR;}
 #define ALLOCATE(s) (char *) malloc(strlen(s) + 1) 
 #define STRCPY(s) strcpy(ALLOCATE(s), s)   
 
 /* defines the type for the current states after a particular transition 
-	has been occurred in the FSM */
+   has been occurred in the FSM */
 enum state { /* the different states of the state machine */
 	STOP, 
 	START, 

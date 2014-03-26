@@ -58,8 +58,8 @@ static Character get_next(FILE *fp)
 {
 	Character nc;		/* next character */
 	/*
-	extern char c;
-	extern int ccount, exit_main;
+	  extern char c;
+	  extern int ccount, exit_main;
 	*/
 	c = getc(fp);				
 	if (isdigit(c) || isalpha(c) || c == '_') {
@@ -109,8 +109,8 @@ static State transition(State current, Character cc)
 {
 	State ns;		/* next state to be returned			*/
 	/*
-	extern int erroroccured;
-	extern char c;
+	  extern int erroroccured;
+	  extern char c;
 	*/
 	if (current == START)
 		switch (cc) {
@@ -149,13 +149,13 @@ static State transition(State current, Character cc)
 		}
 	else if (current == BUILD_ST)
 		switch (cc) {
-			case BLANK:
-				ns = ST;
-				break;
-			default:
-				erroroccured = 1;
-				ns = (c != '\n' ? IGNORE_ERROR : STOP);
-				break;
+		case BLANK:
+			ns = ST;
+			break;
+		default:
+			erroroccured = 1;
+			ns = (c != '\n' ? IGNORE_ERROR : STOP);
+			break;
 		}
 	else if (current == BLANKS) {
 		switch (cc) {
@@ -212,21 +212,21 @@ int get_query(char **keywords, unsigned short *st, int *wcount)
 	State cs;		/* current state */
 	char realword[MAXWORD];
 	/* 
-	extern int erroroccured, exit_main;
-	extern char *word, stsofar;*/
+	   extern int erroroccured, exit_main;
+	   extern char *word, stsofar;*/
 	/* initialize extern variables for this read */
 	word = realword;
 	idccount = tokencount = erroroccured  = 0;
 	stsofar = 'n'; 
 	int i =0;
 	int sepcount = 0; /* this is the search type token count i.e '|' or '&' count */
-	                    /* 'tokencount' is the total count of tokens together with
-	                       search type tokens */
+	/* 'tokencount' is the total count of tokens together with
+	   search type tokens */
 	cs = START;
 	do {
 		if (cs == IDENTIFIER) {
 		    /*printf("%s - Identifier\n", realword);*/  /* we cannot use word. it;s just a pointer and 
-		    at this moment it has been incremented */
+			  at this moment it has been incremented */
 		    cs = START;
 		    ++tokencount;
 		    word = realword; 
@@ -271,7 +271,7 @@ int get_query(char **keywords, unsigned short *st, int *wcount)
 				return ERROR;
 			}   	
 	if (((tokencount - (sepcount << 1U) != 1) && stsofar != 'n') || 
-		   erroroccured || tokencount == 0) {
+		erroroccured || tokencount == 0) {
 		fprintf(stderr, "\nInvalid query format...\n");
 		return ERROR;
 	} 
@@ -310,8 +310,8 @@ main(void)
         if (type == OK) {
             
             for (i = 0; keywords[i] != NULL; ++i) {
-        			fprintf(stdout, "%s : \n", keywords[i]);
-        			/* now search */
+				fprintf(stdout, "%s : \n", keywords[i]);
+				/* now search */
         	}
         	printf("search type: %d\nnwords: %d\n", search_type, wcount);
         } else if (type == ERROR) {

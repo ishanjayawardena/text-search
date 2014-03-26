@@ -91,7 +91,7 @@ void dirwalk(STRING dir, void (*fcn)(STRING))
 	while ((dp = readdir(dfd)) != NULL) {
 		if (strcmp(dp->d_name, ".") == 0 ||
 			strcmp(dp->d_name, "..") == 0)
-				continue;
+			continue;
 		if (strlen(dir) + strlen(dp->d_name) + 2 > sizeof(name))
 			fprintf(stderr, "dirwalk: name %s/%s too long\n", dir, dp->d_name);
 		else {
@@ -118,8 +118,8 @@ unsigned int write_paths(STRING pathp, STRING **subpaths)
     char *root = NULL;			/* the search for text files begins here */
     int size = 0;	
     n = 0;		
-     /*	here we check for root names that end with a '/' and remove that
-    					from its name and build a nicer name */
+	/*	here we check for root names that end with a '/' and remove that
+		from its name and build a nicer name */
     if (pathp[strlen(pathp) - 1] == SEP) {
     	newargv1 = MAKESTR(strlen(pathp) - 1);
     	strncat(newargv1, pathp, strlen(pathp) - 1);
@@ -132,7 +132,7 @@ unsigned int write_paths(STRING pathp, STRING **subpaths)
     	strcat(root, pwd);
     } else if (strcmp(newargv1, "..") == 0) { /* so the root is parent of pwd	*/
     	size = strrchr(pwd, SEP) - pwd;/* we remove the name of pwd from pwd to get 
-    									the name of parent of pwd	*/
+										  the name of parent of pwd	*/
     	root = MAKESTR(size);
     	strncat(root, pwd, size);
     } else { /* we have to anticipate root names like "../one/two" OR "./one/two"	*/
@@ -147,7 +147,7 @@ unsigned int write_paths(STRING pathp, STRING **subpaths)
     		strcat(root, pwd);
     		strcat(root, &newargv1[1]);
     	} else { /* a normal absolute path 
-    			eg: "/home/ishan/devel/C/miniproject/beta3_3/three/one/dire.c"	*/
+					eg: "/home/ishan/devel/C/miniproject/beta3_3/three/one/dire.c"	*/
     		root = strcpy(MAKESTR(strlen(newargv1)), newargv1);
     		/* we still have to do this, otherwise 'pathp' will store
     		   a garbage value in it once exited from this function. 
