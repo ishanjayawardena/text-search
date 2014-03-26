@@ -7,17 +7,7 @@ PLEASE READ THIS FILE BEFORE YOU DO ANYTHING.
 
 How to install the program
 --------------------------
-	* Copy the tarball(the search-0.1.tar.gz file) to your favorite directory 
-	  and extract it. Open a terminal and go inside that directory, and type
-	  tar -zxvf search-0.1.tar.gz + <Enter>
-	  
-	  change your directory to 'src' within 'search-0.1', type
-	  cd ./search-0.1/src + <Enter>
-	  
-	  eg. if you extracted the tarball in to /home/yourname/temp, now you must
-	  be in /home/yourname/temp/search-0.1/src directory.
-	
-	  Now execute following command while you are in this directory.
+	* Chage the directory to 'src'.
 	  
 	* To make the executable, type
 	  make + <Enter>
