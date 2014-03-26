@@ -6,8 +6,8 @@ A simple text search engine for Linux based systems.
 PLEASE READ THIS FILE BEFORE YOU DO ANYTHING.
 
 How to install the program
-==========================
-	* Copy the tarball(the search-0.1.tar.gz file) to your favourite directory 
+--------------------------
+	* Copy the tarball(the search-0.1.tar.gz file) to your favorite directory 
 	  and extract it. Open a terminal and go inside that directory, and type
 	  tar -zxvf search-0.1.tar.gz + <Enter>
 	  
@@ -27,7 +27,7 @@ How to install the program
 	  
 	  The default installation directory is '/usr/local/bin'.
 	  If you want to install the executable into a different directory, just
-	  change the value of the vairable named INSTDIR to your desired path before
+	  change the value of the variable named INSTDIR to your desired path before
 	  you invoke 'make install' command. This INSTDIR is found in the makefile.
 	  
 	  e.g. if you want to install to your /usr/bin directory, change the line in
@@ -43,10 +43,10 @@ How to install the program
 	  make cleanall + <Enter>.
 	  
 How to run the program
-======================
+----------------------
 	* you can always try out the program just after making it.
 	  i.e. after you type 'make'+<Enter>, if the program compiles and
-	  if the executalbe is made without any error, you can test it by typing
+	  if the executable is made without any error, you can test it by typing
 	  ./search + <Enter> (see 'invoking' subsection below).
 	  
 	* if you installed the executable to one of the standard paths of your terminal
@@ -55,7 +55,7 @@ How to run the program
 	  (the default path in the makefile is a standard path.)
 	  
 	invoking the program:
-	====================
+	---------------------
 		NOTE: I assume that you have installed the program in to the default path.
 		
 		+ The name of the executable is 'search'
@@ -69,7 +69,7 @@ How to run the program
 		  -ture.( If any file or any subdirectory cannot be opened, 'search' just 
 		  skips it and continues to work with the rest.) 
 			
-		+ Then it prints a promt 'query>> '
+		+ Then it prints a prompt 'query>> '
 	    
 	    + Now you can give your query of words to search.
 	      e.g 'query >> for '
@@ -86,7 +86,7 @@ How to run the program
 	    		then, 'search' will print all the files that contain both the
 	    		words 'for' and 'while'.
 	    		
-	    	if no result is found, 'search' will display a messege.
+	    	if no result is found, 'search' will display a message.
 	    	
 	    + if you want to search the text files in /usr/include/ directory,
 	      just give the path as an option when you invoke 'search'.
